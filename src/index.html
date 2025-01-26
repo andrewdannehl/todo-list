@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+</head>
+<body id="body">
+    <div id="header">
+
+    </div>
+    <div class="nav-bar">
+        <div id="app-icon">App Icon</div>
+        <div id="settings">Gear SVG</div>
+        <div id="all-tasks">All Tasks</div>
+        <div id="uncategorized">Uncategorized</div>
+        <div id="categories">Categories <button id="new-project">+</button></div>
+
+        <div id="projects">dynamically loaded list</div>
+    </div>
+    <div class="content">
+
+    </div>
+    <div class="modal hidden">
+        <div class="flex">
+            <h2>New Todo Item</h2>
+            <button class="btn-close">X</button>
+        </div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates aspernatur in, aperiam mollitia dolores iste laborum libero fuga asperiores voluptas rerum quidem. Ducimus pariatur culpa sequi, quod architecto enim natus?
+        <form id="addTodo" class="form-container">
+            <label>Title</label>
+            <input type="text" id="title">
+            <label>Description</label>
+            <input type="text" id="description">
+            <label>Due Date</label>
+            <input type="text" id="dueDate">
+            <label>Priority</label>
+            <input type="text" id="priority">
+            <label>Notes</label>
+            <input type="text" id="notes">
+            <label>Checklist</label>
+            <input type="text" id="checklist">
+            <button class="btn submit">Submit</button>
+        </form>
+        
+    </div>
+    <div class="overlay hidden">
+    </div>
+</body>
+</html>
