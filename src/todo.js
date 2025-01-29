@@ -47,31 +47,39 @@ class todoItems {
     }
 }
 
+class todoFormHandler {
+    constructor(formElement) {
+        this.form = formElement;
+    }
 
+    getFormData() {
+        const title = this.form.querySelector('#title').value;
+        const description = this.form.querySelector('#description').value;
+        const dueDate = this.form.querySelector('#dueDate').value;
+        const priority = this.form.querySelector('#priority').value;
+        const notes = this.form.querySelector('#notes').value;
+        const checklist = this.form.querySelector('#checklist').value;
+        return { title, description, dueDate, priority, notes, checklist };
+    }
+
+    createTodo() {
+        const { title, description, dueDate, priority, notes, checklist } = this.getFormData();
+        return new todo(title, description, dueDate, priority, notes, checklist);
+    }
+}
 
 class todoHandler {
-    constructor(todoItemsInstance) {
-        this.todoItems = todoItemsInstance;
+    constructor(allTodoItems, formHandler) {
+        this.todoItems = allTodoItems;
+        this.formHandler = formHandler;
     }
     
     handler(event) {
         event.preventDefault();
-        
-        const title = document.getElementById('title').value;
-        const description = document.getElementById('description').value;
-        const dueDate = document.getElementById('dueDate').value;
-        const priority = document.getElementById('priority').value;
-        const notes = document.getElementById('notes').value;
-        const checklist = document.getElementById('checklist').value;
-
-        const newTodo = new todo(title, description, dueDate, priority, notes, checklist);
+        const newTodo = this.formHandler.createTodo();        
         this.todoItems.addItem(newTodo);
-        this.todoItems.display()
-
-        const card = document.createElement('div');
-        card.classList.add('todo-card');
-        
-        
+        const content = document.getElementById('content');
+        content.innerHTML = this.todoItems.display();       
         closeModal();
     }
 
@@ -122,4 +130,4 @@ class projects {
     }
 }
 
-export { todo, todoItems, todoHandler, project, projects, projectHandler };
+export { todo, todoItems, todoHandler, todoFormHandler, project, projects, projectHandler };

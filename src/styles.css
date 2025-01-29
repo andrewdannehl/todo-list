@@ -137,4 +137,9 @@ body {
   .hidden {
     display: none;
   }
+
+
+  .todo-card {
+    border: 1px solid red;
+  }
   
