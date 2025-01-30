@@ -1,5 +1,6 @@
 import './styles.css';
 import { closeModal } from './modal';
+import { renderContent } from './index.js';
 
 class todo {
     constructor(title, description, dueDate, priority, notes, checklist) {
@@ -20,6 +21,7 @@ class todo {
                 ${this.priority}<br>
                 ${this.notes}<br>
                 ${this.checklist}<br>
+                <button class="remove">Remove Todo</button>
             </div>
         `;
     }
@@ -35,16 +37,27 @@ class todo {
 
 class todoItems {
     constructor() {
-        this.items = [];
+        const savedItems = JSON.parse(localStorage.getItem('todoItems')) || [];
+        this.items = savedItems.map(item => new todo(item.title, item.description, item.dueDate, item.priority, item.notes, item.checklist));
     }
 
     addItem(item) {
         this.items.push(item);
+        localStorage.setItem('todoItems', JSON.stringify(this.items)); 
     }
     
+    removeItem(event, index) {
+        if (event.target.classList.contains('remove')) {
+            const index = event.target.id;
+            this.items.splice(index, 1);
+            localStorage.setItem('todoItems', JSON.stringify(this.items)); 
+        }
+    }
+
     display() {
         return this.items.map(item => item.display()).join('');
     }
+
 }
 
 class todoFormHandler {
@@ -72,14 +85,16 @@ class todoHandler {
     constructor(allTodoItems, formHandler) {
         this.todoItems = allTodoItems;
         this.formHandler = formHandler;
-    }
-    
+    }    
+
     handler(event) {
         event.preventDefault();
         const newTodo = this.formHandler.createTodo();        
         this.todoItems.addItem(newTodo);
         const content = document.getElementById('content');
-        content.innerHTML = this.todoItems.display();       
+        //content.innerHTML = this.todoItems.display(); 
+        //addLocalStorage(newTodo)
+        renderContent();
         closeModal();
     }
 
@@ -87,7 +102,7 @@ class todoHandler {
 
 class projectHandler {
     constructor() {
-        
+
     }
 
     handler(event) {
@@ -96,7 +111,6 @@ class projectHandler {
         const projectTitle = document.getElementById('projectTitle').value;
         const newProject = new project(title);//add new todo item
         projects.addItem(newProject);
-        console.log(projects.display());
         //print it to console
         closeModal();
     }

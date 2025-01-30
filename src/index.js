@@ -13,35 +13,36 @@ openModalBtn.innerHTML = 'New Todo';
 openModalBtn.addEventListener("click", openModal);
 closeModalBtn.addEventListener("click", closeModal);
 
-
-
-const content = document.getElementById('content');
 const formElement = document.getElementById('addTodo');
 const formHandler = new todoFormHandler(formElement);
+const content = document.getElementById('content');
 
 //instance of todo items
 const allTodoItems = new todoItems();
 const newTodo = new todoHandler(allTodoItems, formHandler);
 
 submit.addEventListener('click', newTodo.handler.bind(newTodo));
+//why doesn't this work???
+//content.addEventListener('click', allTodoItems.removeItem.bind(event));
 
-
+content.addEventListener('click', (event) => {
+   if (event.target.classList.contains('remove')) {
+        const index = event.target.id;
+        allTodoItems.removeItem(event, index);
+        renderContent();
+    }
+});
 
 
 header.appendChild(openModalBtn);
 
 function renderContent() {
-    
     content.innerHTML = '';
     content.innerHTML = allTodoItems.display();
-    //render based on active view
-}
-
-function setActiveView() {
-    
 }
 
 //initial render
+renderContent();
 
 
-//listenders for different renders
+export { renderContent }
