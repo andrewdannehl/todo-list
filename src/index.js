@@ -4,6 +4,7 @@ import { todo, todoItems, todoHandler, todoFormHandler, project, projects, proje
 
 const openModalBtn = document.createElement('button');
 const closeModalBtn = document.querySelector('.btn-close');
+const newProjectBtn = document.querySelector('#new-project');
 const header = document.getElementById('header');
 const submit = document.querySelector('.submit');
 
@@ -16,14 +17,15 @@ closeModalBtn.addEventListener("click", closeModal);
 const formElement = document.getElementById('addTodo');
 const formHandler = new todoFormHandler(formElement);
 const content = document.getElementById('content');
+const categories = document.getElementById('projects');
 
-//instance of todo items
 const allTodoItems = new todoItems();
+const allProjects = new projects();
+const newProject = new projectHandler(allProjects);
 const newTodo = new todoHandler(allTodoItems, formHandler);
 
 submit.addEventListener('click', newTodo.handler.bind(newTodo));
-//why doesn't this work???
-//content.addEventListener('click', allTodoItems.removeItem.bind(event));
+newProjectBtn.addEventListener('click', newProject.handler.bind(newProject));
 
 content.addEventListener('click', (event) => {
    if (event.target.classList.contains('remove')) {
@@ -33,15 +35,23 @@ content.addEventListener('click', (event) => {
     }
 });
 
-
-header.appendChild(openModalBtn);
+categories.addEventListener('click', (event) => {
+    if (event.target.classList.contains('remove-project')) {
+         const index = event.target.id;
+         allProjects.remove(event, index);
+         renderContent();
+     }
+ });
 
 function renderContent() {
     content.innerHTML = '';
+    categories.innerHTML = '';
     content.innerHTML = allTodoItems.display();
+    categories.innerHTML = allProjects.display();
 }
 
 //initial render
+header.appendChild(openModalBtn);
 renderContent();
 
 

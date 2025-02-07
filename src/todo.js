@@ -91,8 +91,6 @@ class todoHandler {
         event.preventDefault();
         const newTodo = this.formHandler.createTodo();        
         this.todoItems.addItem(newTodo);
-        const content = document.getElementById('content');
-        //content.innerHTML = this.todoItems.display(); 
         //addLocalStorage(newTodo)
         renderContent();
         closeModal();
@@ -101,44 +99,59 @@ class todoHandler {
 }
 
 class projectHandler {
-    constructor() {
-
+    constructor(allProjects) {
+        this.allProjects = allProjects;
     }
 
     handler(event) {
         event.preventDefault();
         //need to gather user input for the title
-        const projectTitle = document.getElementById('projectTitle').value;
-        const newProject = new project(title);//add new todo item
-        projects.addItem(newProject);
+        let userInput = prompt("Please enter category name:");
+        let projectTitle = userInput;
+        const newProject = new project(projectTitle);
+        this.allProjects.addItem(newProject);
+        renderContent();
         //print it to console
-        closeModal();
+        //closeModal();
     }
 }
 
 class project {
     constructor(title) {
         this.title = title;
-        this.items = [];
     }
 
-    create() {
-
-    }
-
-    remove() {
-
+    display() {
+        return `           
+            <div class="project">
+            <div class="wrapper">
+                <div>${this.title}</div>
+                <button class='remove-project'>X</button>
+            </div>
+        </div>
+        `;
     }
 }
 
 class projects {
     constructor() {
-        this.items = [];
+        const savedItems = JSON.parse(localStorage.getItem('projectItems')) || [];
+        this.items = savedItems.map(item => new project(item.title));
     }
+
     addItem(item) {
         this.items.push(item);
+        localStorage.setItem('projectItems', JSON.stringify(this.items)); 
     }
-    
+
+    remove(event, index) {
+        if (event.target.classList.contains('remove-project')) {
+            const index = event.target.id;
+            this.items.splice(index, 1);
+            localStorage.setItem('projectItems', JSON.stringify(this.items)); 
+        }
+    }
+
     display() {
         return this.items.map(item => item.display()).join('');
     }

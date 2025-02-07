@@ -143,3 +143,11 @@ body {
     border: 1px solid red;
   }
   
+  .project {
+    padding: 5px 5px 5px 5px;
+  }
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
